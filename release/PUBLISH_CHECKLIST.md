@@ -84,8 +84,8 @@
 
 ## 8. 待你补充（发布前必填）
 
-- [ ] 官方网站 URL https://www.tiptinker.com/markdown-to-html-converter/
-- [ ] 支持页 URL https://www.tiptinker.com/contact-us/
-- [ ] 隐私政策 URL（若商店要求）https://www.tiptinker.com/privacy-policy/
-- [ ] 截图（至少 1-3 张）
-- [ ] 图标与宣传图（按商店尺寸要求）
+- [x] 官方网站 URL https://www.tiptinker.com/markdown-to-html-converter/
+- [x] 支持页 URL https://www.tiptinker.com/contact-us/
+- [x] 隐私政策 URL（若商店要求）https://www.tiptinker.com/privacy-policy/
+- [x] 截图（至少 1-3 张）images/screenshot-1.png, screenshot-2.png, screenshot-3.png
+- [x] 图标与宣传图（按商店尺寸要求）images/feature-graphic.png

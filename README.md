@@ -1,5 +1,7 @@
 # Markdown Converter
 
+![Markdown Converter](images/feature-graphic.png)
+
 Markdown Converter is a locally running browser extension that provides live Markdown preview, HTML/PDF export, PNG screenshots, Mermaid diagram rendering, and KaTeX math rendering for Chrome and Firefox.
 
 ## Features
@@ -11,6 +13,10 @@ Markdown Converter is a locally running browser extension that provides live Mar
 - Light and dark themes
 - Local autosave
 - One repository, two build outputs: `dist/chrome` and `dist/firefox`
+
+| | | |
+|---|---|---|
+| ![Screenshot 1](images/screenshot-1.png) | ![Screenshot 2](images/screenshot-2.png) | ![Screenshot 3](images/screenshot-3.png) |
 
 Chrome and Firefox both use a single side panel/sidebar UI. Clicking the toolbar icon opens that panel.
 
@@ -117,7 +123,7 @@ Screenshot sizing differs by browser surface on purpose: Chrome side panel uses 
 ## Project Structure
 
 ```text
-markdown-web-extension/
+markdownconverter/
 ├── manifest.json
 ├── manifest-firefox.json
 ├── sidebar.html
@@ -129,8 +135,7 @@ markdown-web-extension/
 ├── background.js
 ├── libs/
 ├── images/
-├── scripts/build.js
-└── dist/
+└── scripts/build.js
 ```
 
 ## Development
@@ -146,7 +151,7 @@ The repository already includes local runtime assets in `libs/` and `images/`, s
 
 - Build fails: make sure Node.js is installed and run commands from the project root
 - Chrome cannot load: check `dist/chrome/manifest.json`
-- Firefox cannot load: check `dist/firefox/manifest.json` and use Firefox 109+
+- Firefox cannot load: check `dist/firefox/manifest.json` and use Firefox 140+
 - Preview does not render: verify the files in `libs/` exist and inspect the extension console
 
 ## Notes
@@ -156,4 +161,4 @@ The repository already includes local runtime assets in `libs/` and `images/`, s
 
 Version: `1.0.0`
 Updated: `2026-03-28`
-Compatibility: `Chrome 90+`, `Firefox 109+`
+Compatibility: `Chrome 90+`, `Firefox 140+`
