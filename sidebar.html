@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles-sidebar.css">
+    <link rel="stylesheet" href="libs/fontawesome/css/all.min.css">
+    <link rel="stylesheet" href="libs/katex.min.css">
+</head>
+<body class="sidebar">
+    <div id="container">
+        <header>
+            <h1>Markdown Converter <a href="https://www.tiptinker.com/markdown-to-html-converter/" target="_blank" rel="noopener noreferrer" class="header-link" title="Open web version"><i class="fas fa-external-link-alt"></i></a></h1>
+        </header>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="editor">Editor</button>
+            <button class="tab-btn" data-tab="preview">Preview</button>
+        </div>
+
+        <div class="tab-content active" id="editor">
+            <div class="editor-container">
+                <textarea id="markdownInput" placeholder="Type Markdown content...&#10;&#10;Supports:&#10;- GitHub Flavored Markdown&#10;- Mermaid diagrams&#10;- KaTeX math"></textarea>
+            </div>
+        </div>
+
+        <div class="tab-content" id="preview">
+            <div id="previewContainer" class="preview-container">
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <div class="left-tools">
+                <button id="clearBtn" title="Clear"><i class="fas fa-trash"></i></button>
+                <button id="copyBtn" title="Copy HTML"><i class="fas fa-copy"></i></button>
+            </div>
+            <div class="right-tools">
+                <button id="exportHtmlBtn" title="Export HTML"><i class="fas fa-file-code"></i> HTML</button>
+                <button id="exportPdfBtn" title="Export PDF"><i class="fas fa-file-pdf"></i> PDF</button>
+                <button id="screenshotBtn" title="Screenshot"><i class="fas fa-image"></i> Screenshot</button>
+                <button id="darkModeBtn" title="Toggle dark mode"><i class="fas fa-moon"></i></button>
+            </div>
+        </div>
+
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <!-- Local Libraries -->
+    <script src="libs/marked.js"></script>
+    <script src="libs/mermaid.min.js"></script>
+    <script src="libs/katex.min.js"></script>
+    <script src="libs/auto-render.min.js"></script>
+    <script src="libs/html2pdf.bundle.min.js"></script>
+    <script src="libs/html2canvas.min.js"></script>
+    <script src="libs/purify.min.js"></script>
+    <script src="screenshot-utils.js"></script>
+    <script src="markdown-converter-core.js"></script>
+
+    <script src="sidebar.js"></script>
+</body>
+</html>

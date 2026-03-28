@@ -1,0 +1,38 @@
+{
+  "name": "markdown-converter-extension",
+  "version": "1.0.0",
+  "description": "A browser extension for Markdown conversion with live preview, HTML/PDF export, Mermaid, KaTeX, and screenshot support",
+  "license": "MIT",
+  "keywords": [
+    "markdown",
+    "converter",
+    "extension",
+    "browser",
+    "chrome",
+    "firefox",
+    "html2pdf",
+    "mermaid",
+    "katex",
+    "preview"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "build:chrome": "node scripts/build.js chrome",
+    "build:firefox": "node scripts/build.js firefox",
+    "clean": "node scripts/build.js clean"
+  },
+  "devDependencies": {
+    "dompurify": "^3.3.3",
+    "katex": "^0.16.0",
+    "marked": "^11.0.0",
+    "mermaid": "^10.0.0"
+  },
+  "engines": {
+    "chrome": ">=90",
+    "firefox": ">=109"
+  },
+  "categories": [
+    "Productivity",
+    "Developer Tools"
+  ]
+}

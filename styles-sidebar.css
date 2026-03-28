@@ -1,0 +1,79 @@
+/* Sidebar overrides layered on top of styles.css */
+
+body.sidebar {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body.sidebar #container {
+    height: 100vh;
+}
+
+body.sidebar .tabs {
+    padding: 0 6px;
+}
+
+body.sidebar .tab-btn {
+    padding: 8px 12px;
+    font-size: 13px;
+}
+
+body.sidebar .editor-container {
+    padding: 10px;
+}
+
+body.sidebar #markdownInput {
+    font-size: 13px;
+}
+
+body.sidebar .preview-container {
+    padding: 12px;
+}
+
+body.sidebar .toolbar {
+    padding: 8px;
+    gap: 6px;
+}
+
+body.sidebar .left-tools,
+body.sidebar .right-tools {
+    gap: 6px;
+}
+
+body.sidebar .toolbar button {
+    padding: 6px 10px;
+    font-size: 12px;
+}
+
+body.sidebar #darkModeBtn {
+    margin-left: 0;
+}
+
+body.sidebar .notification {
+    top: auto;
+    bottom: 86px;
+    right: 14px;
+}
+
+@media (max-width: 560px) {
+    body.sidebar .toolbar {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    body.sidebar .left-tools,
+    body.sidebar .right-tools {
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    body.sidebar .right-tools button {
+        flex: 1;
+        justify-content: center;
+    }
+
+    body.sidebar .notification {
+        bottom: 132px;
+    }
+}

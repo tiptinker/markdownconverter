@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS Files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+*.sublime-project
+*.sublime-workspace
+
+# Build
+dist/
+build/
+*.zip
+*.crx
+*.xpi
+
+# Logs
+logs/
+*.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Temp
+temp/
+tmp/
+*.tmp
+
+# Chrome Extension Specific
+*.pem
+profiles/
+profile_default/
+
+# Firefox Specific
+web-ext-artifacts/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+
+# Generated Icons (optional - keep or remove based on preference)
+# images/*.png
+
+# Local development
+*.bak
+*.backup
+debug*.js
