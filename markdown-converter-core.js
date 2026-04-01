@@ -131,6 +131,132 @@ function renderMarkdownToHtml(markdownText) {
     return sanitizeHtml(marked.parse(markdownText || ''));
 }
 
+function isEscapedCharacter(text, index) {
+    let backslashCount = 0;
+
+    for (let cursor = index - 1; cursor >= 0 && text[cursor] === '\\'; cursor -= 1) {
+        backslashCount += 1;
+    }
+
+    return backslashCount % 2 === 1;
+}
+
+function isWhitespaceCharacter(character) {
+    return !character || /\s/.test(character);
+}
+
+function isDigitCharacter(character) {
+    return Boolean(character) && /\d/.test(character);
+}
+
+function findInlineDollarMathRanges(text) {
+    const ranges = [];
+
+    for (let startIndex = 0; startIndex < text.length; startIndex += 1) {
+        if (text[startIndex] !== '$' || isEscapedCharacter(text, startIndex)) {
+            continue;
+        }
+
+        if (text[startIndex + 1] === '$' || isWhitespaceCharacter(text[startIndex + 1])) {
+            continue;
+        }
+
+        for (let endIndex = startIndex + 1; endIndex < text.length; endIndex += 1) {
+            if (text[endIndex] !== '$' || isEscapedCharacter(text, endIndex)) {
+                continue;
+            }
+
+            if (text[endIndex - 1] === '$') {
+                continue;
+            }
+
+            if (isWhitespaceCharacter(text[endIndex - 1]) || isDigitCharacter(text[endIndex + 1])) {
+                continue;
+            }
+
+            const mathText = text.slice(startIndex + 1, endIndex);
+
+            if (isDigitCharacter(text[startIndex + 1]) && /\s/.test(mathText)) {
+                continue;
+            }
+
+            ranges.push({
+                start: startIndex,
+                end: endIndex,
+                math: mathText
+            });
+
+            startIndex = endIndex;
+            break;
+        }
+    }
+
+    return ranges;
+}
+
+function renderInlineDollarMath(container) {
+    if (!container || typeof katex === 'undefined') {
+        return;
+    }
+
+    const ignoredTags = new Set(['code', 'option', 'pre', 'script', 'style', 'textarea']);
+    const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+
+    while (walker.nextNode()) {
+        const textNode = walker.currentNode;
+        const parentElement = textNode.parentElement;
+
+        if (!parentElement) {
+            continue;
+        }
+
+        if (ignoredTags.has(parentElement.tagName.toLowerCase()) || parentElement.closest('.katex')) {
+            continue;
+        }
+
+        textNodes.push(textNode);
+    }
+
+    for (const textNode of textNodes) {
+        const ranges = findInlineDollarMathRanges(textNode.textContent || '');
+
+        if (!ranges.length) {
+            continue;
+        }
+
+        const fragment = document.createDocumentFragment();
+        let cursor = 0;
+
+        for (const range of ranges) {
+            if (range.start > cursor) {
+                fragment.appendChild(document.createTextNode(textNode.textContent.slice(cursor, range.start)));
+            }
+
+            const mathHost = document.createElement('span');
+
+            try {
+                katex.render(range.math, mathHost, {
+                    displayMode: false,
+                    throwOnError: false
+                });
+                fragment.appendChild(mathHost);
+            } catch (error) {
+                console.warn('Inline dollar math render error:', error);
+                fragment.appendChild(document.createTextNode(textNode.textContent.slice(range.start, range.end + 1)));
+            }
+
+            cursor = range.end + 1;
+        }
+
+        if (cursor < textNode.textContent.length) {
+            fragment.appendChild(document.createTextNode(textNode.textContent.slice(cursor)));
+        }
+
+        textNode.parentNode.replaceChild(fragment, textNode);
+    }
+}
+
 function escapeHtml(value) {
     return value
         .replace(/&/g, '&amp;')
@@ -510,12 +636,13 @@ function initMarkdownConverter(options) {
                 renderMathInElement(dom.previewContainer, {
                     delimiters: [
                         { left: '$$', right: '$$', display: true },
-                        { left: '$', right: '$', display: false },
                         { left: '\\(', right: '\\)', display: false },
                         { left: '\\[', right: '\\]', display: true }
                     ],
                     throwOnError: false
                 });
+
+                renderInlineDollarMath(dom.previewContainer);
             } catch (error) {
                 console.warn('KaTeX render error:', error);
             }

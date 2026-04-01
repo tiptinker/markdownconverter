@@ -20,6 +20,10 @@ const sharedDirs = [
     'libs'
 ];
 
+const excludedLibFiles = new Set([
+    'html2pdf.bundle.min.js'
+]);
+
 const browserConfigs = {
     chrome: {
         manifestSource: 'manifest.json',
@@ -46,7 +50,19 @@ function copyFileRelative(sourceRelativePath, targetDir, targetRelativePath = so
 }
 
 function copyDirectoryRecursive(sourceDir, targetDir) {
-    fs.cpSync(sourceDir, targetDir, { recursive: true });
+    const normalizedSourceDir = path.normalize(sourceDir);
+    const libsDir = path.join(rootDir, 'libs');
+
+    fs.cpSync(sourceDir, targetDir, {
+        recursive: true,
+        filter: (sourcePath) => {
+            if (path.dirname(path.normalize(sourcePath)) !== libsDir) {
+                return true;
+            }
+
+            return !excludedLibFiles.has(path.basename(sourcePath));
+        }
+    });
 }
 
 function buildTarget(targetName) {

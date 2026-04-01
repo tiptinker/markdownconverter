@@ -38,10 +38,6 @@ This project uses the following open-source libraries:
 - License: MIT
 - https://katex.org/
 
-### html2pdf.js
-- License: MIT
-- http://html2pdf.cluster/
-
 ### html2canvas
 - License: MIT
 - https://html2canvas.hertzen.com/
@@ -49,9 +45,5 @@ This project uses the following open-source libraries:
 ### Font Awesome
 - License: CC BY 4.0 / SIL OFL 1.1
 - https://fontawesome.com/
-
-### CDN Libraries from:
-- jsDelivr: https://www.jsdelivr.com/
-- CDNJS: https://cdnjs.com/
 
 All licenses are compatible with MIT License.

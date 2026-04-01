@@ -40,18 +40,12 @@
 
 - permissions:
   - storage: 保存用户输入内容和主题设置
-  - scripting: 兼容扩展脚本执行场景
   - sidePanel: 打开和显示侧边栏面板
-- host_permissions:
-  - <all_urls>: 允许扩展在侧边栏内处理用户粘贴/输入内容中的链接与资源引用（不采集页面数据）
 
 ### Firefox
 
 - permissions:
   - storage: 保存用户输入内容和主题设置
-  - tabs: 支持侧边栏按钮行为与标签页上下文兼容
-- host_permissions:
-  - <all_urls>: 允许扩展在侧边栏内处理用户粘贴/输入内容中的链接与资源引用（不采集页面数据）
 - gecko id:
   - markdown-converter-ext@tiptinker.com
 - gecko strict_min_version: 140.0 (Firefox 140+ required for data_collection_permissions support)

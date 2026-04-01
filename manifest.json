@@ -5,11 +5,7 @@
   "description": "Convert Markdown to HTML, PDF, and more. Preview with live rendering, Mermaid diagrams, and KaTeX math.",
   "permissions": [
     "storage",
-    "scripting",
     "sidePanel"
-  ],
-  "host_permissions": [
-    "<all_urls>"
   ],
   "action": {
     "default_title": "Markdown Converter",
