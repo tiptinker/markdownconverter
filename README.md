@@ -4,6 +4,11 @@
 
 Markdown Converter is a locally running browser extension that provides live Markdown preview, HTML/PDF export, PNG screenshots, Mermaid diagram rendering, and KaTeX math rendering for Chrome and Firefox.
 
+## Install
+
+- Firefox Add-ons: [Markdown Converter on AMO](https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/)
+- Chrome Web Store: [Markdown Converter on Chrome Web Store](https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli)
+
 ## Features
 
 - Live Markdown preview
