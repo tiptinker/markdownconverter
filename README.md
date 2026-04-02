@@ -6,8 +6,8 @@ Markdown Converter is a locally running browser extension that provides live Mar
 
 ## Install
 
-- Firefox Add-ons: [Markdown Converter on AMO](https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/)
-- Chrome Web Store: [Markdown Converter on Chrome Web Store](https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli)
+- Firefox Add-ons: [https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/](https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/)
+- Chrome Web Store: [https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli](https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli)
 
 ## Features
 
