@@ -6,6 +6,7 @@ Markdown Converter is a locally running browser extension that provides live Mar
 
 ## Install
 
+[![Google Play](https://img.shields.io/badge/Google%20Play-34A853?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.tiptinker.markdownconverter&hl=en)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-FF7139?logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli)
 
@@ -43,29 +44,27 @@ npm run clean
 
 ### Package for Distribution
 
-Requires [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/) (install once globally):
+After `npm install`, package both browser builds with one command:
 
 ```bash
-npm install -g web-ext
+npm run package
 ```
 
-Package Chrome:
+Package only Chrome:
 
 ```bash
-npm run build:chrome
-cd dist/chrome
-web-ext build --overwrite-dest --artifacts-dir ../../release/chrome
+npm run package:chrome
 ```
 
-Package Firefox:
+Package only Firefox:
 
 ```bash
-npm run build:firefox
-cd dist/firefox
-web-ext build --overwrite-dest --artifacts-dir ../../release/firefox
+npm run package:firefox
 ```
 
-Output files are placed in `release/chrome/` and `release/firefox/` respectively.
+Output files are placed in `release/chrome/` and `release/firefox/` respectively. The Chrome package is created as a standard upload `.zip`, and the Firefox package is created with `web-ext build` as the correct unsigned AMO upload `.zip`.
+
+For Firefox, `web-ext build` produces the correct unsigned upload package as a `.zip`. Mozilla signs that upload and returns the final `.xpi` during the AMO publishing flow.
 
 ### Load The Extension
 
@@ -110,10 +109,20 @@ graph TD
 
 Inline math: $E = mc^2$
 
+Escaped dollar sign: Price is \$18 to \$20.
+
 $$
 \int_0^1 x^2 dx = \frac{1}{3}
 $$
 ````
+
+## Math Rendering Notes
+
+- Inline and display math are rendered with KaTeX in both Chrome and Firefox builds
+- Single-dollar math like `$e^{i\pi} + 1 = 0$` is supported alongside `$$...$$`, `\(...\)`, and `\[...\]`
+- Escaped dollar signs like `\$18` are preserved as literal currency values instead of being treated as math delimiters
+- Mixed content with text, inline math, and thematic breaks now normalizes more reliably in preview output
+- If you are writing currency ranges such as `Price is \$18 to \$20`, keep the dollar signs escaped to avoid ambiguous math parsing
 
 ## Export Behavior
 
@@ -158,12 +167,14 @@ The repository already includes local runtime assets in `libs/` and `images/`, s
 - Chrome cannot load: check `dist/chrome/manifest.json`
 - Firefox cannot load: check `dist/firefox/manifest.json` and use Firefox 140+
 - Preview does not render: verify the files in `libs/` exist and inspect the extension console
+- Display math shows a vertical scrollbar or gets clipped: update to the latest build. The preview styles now force KaTeX display blocks to scroll horizontally only, add vertical padding, and keep preview containers at `min-height: 0` so formulas remain fully visible in the sidebar.
+- Mixed math and plain text render incorrectly around `$` or `---`: update to the latest build. The shared renderer now normalizes thematic breaks before Markdown parsing and handles escaped dollar signs and standalone single-dollar math more accurately.
 
 ## Notes
 
 - License: MIT, see `LICENSE`
 - Before publishing publicly, fill in the real `repository`, `author`, and issue tracker metadata in `package.json`
 
-Version: `1.0.0`
-Updated: `2026-03-28`
+Version: `1.1.0`
+Updated: `2026-04-05`
 Compatibility: `Chrome 90+`, `Firefox 140+`

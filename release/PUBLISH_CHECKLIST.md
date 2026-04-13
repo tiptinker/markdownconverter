@@ -1,21 +1,21 @@
 # Markdown Converter Publishing Checklist
 
-Last updated: 2026-03-28 17:25:28
-Version: 1.0.0
+Last updated: 2026-04-05 04:14:50
+Version: 1.1.0
 
 ## 1. Upload Package Information
 
-- Chrome upload package: release/chrome/markdown_converter-1.0.0.zip
-- Chrome package size: 2,747,346 bytes
-- Chrome build time: 2026-03-28 17:17:32
-- Firefox upload package: release/firefox/markdown_converter-1.0.0.zip
-- Firefox package size: 2,747,374 bytes
-- Firefox build time: 2026-03-28 17:25:28
+- Chrome upload package: release/chrome/markdown_converter-1.1.0.zip
+- Chrome package size: 3,660,779 bytes
+- Chrome build time: 2026-04-05 04:14:49
+- Firefox upload package: release/firefox/markdown_converter-1.1.0.zip
+- Firefox package size: 3,661,342 bytes
+- Firefox build time: 2026-04-05 04:19:09
 
 ## 2. Store Basics
 
 - Extension name: Markdown Converter
-- Version: 1.0.0
+- Version: 1.1.0
 - Suggested categories: Productivity, Developer Tools
 - Short description:
   - Convert Markdown to HTML, PDF, and PNG with live preview, Mermaid diagrams, and KaTeX math.

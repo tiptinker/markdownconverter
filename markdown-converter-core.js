@@ -123,12 +123,59 @@ function fallbackSanitizeHtml(html) {
     return template.innerHTML;
 }
 
+const thematicBreakRegex = /^\s{0,3}(?:(?:-\s*){3,}|(?:\*\s*){3,}|(?:_\s*){3,})$/;
+
+function normalizeMarkdown(markdownText) {
+    const lines = (markdownText || '').replace(/\r\n/g, '\n').split('\n');
+    const normalizedLines = [];
+
+    lines.forEach((line, index) => {
+        const isThematicBreak = thematicBreakRegex.test(line);
+
+        if (isThematicBreak) {
+            let consecutiveNonBlankLines = 0;
+            let cursor = normalizedLines.length - 1;
+
+            while (cursor >= 0 && normalizedLines[cursor].trim() !== '') {
+                consecutiveNonBlankLines += 1;
+                cursor -= 1;
+            }
+
+            let previousLine = null;
+            for (let previousIndex = normalizedLines.length - 1; previousIndex >= 0; previousIndex -= 1) {
+                if (normalizedLines[previousIndex].trim() !== '') {
+                    previousLine = normalizedLines[previousIndex].trim();
+                    break;
+                }
+            }
+
+            const previousCharacter = previousLine ? previousLine[previousLine.length - 1] : null;
+            const previousLineEndsLikeParagraph = ['.', ':', ';', '!', '?'].includes(previousCharacter);
+            const shouldSeparateFromPreviousParagraph = normalizedLines.length > 0
+                && normalizedLines[normalizedLines.length - 1].trim() !== ''
+                && (consecutiveNonBlankLines > 1 || previousLineEndsLikeParagraph);
+
+            if (shouldSeparateFromPreviousParagraph) {
+                normalizedLines.push('');
+            }
+        }
+
+        normalizedLines.push(line);
+
+        if (isThematicBreak && index < lines.length - 1 && lines[index + 1].trim() !== '') {
+            normalizedLines.push('');
+        }
+    });
+
+    return normalizedLines.join('\n');
+}
+
 function renderMarkdownToHtml(markdownText) {
     if (typeof marked === 'undefined') {
         return '';
     }
 
-    return sanitizeHtml(marked.parse(markdownText || ''));
+    return sanitizeHtml(marked.parse(normalizeMarkdown(markdownText)));
 }
 
 function isEscapedCharacter(text, index) {
@@ -211,7 +258,7 @@ function renderInlineDollarMath(container) {
             continue;
         }
 
-        if (ignoredTags.has(parentElement.tagName.toLowerCase()) || parentElement.closest('.katex')) {
+        if (ignoredTags.has(parentElement.tagName.toLowerCase()) || parentElement.closest('.katex') || parentElement.closest('.mermaid')) {
             continue;
         }
 
@@ -219,7 +266,8 @@ function renderInlineDollarMath(container) {
     }
 
     for (const textNode of textNodes) {
-        const ranges = findInlineDollarMathRanges(textNode.textContent || '');
+        const text = textNode.textContent || '';
+        const ranges = findInlineDollarMathRanges(text);
 
         if (!ranges.length) {
             continue;
@@ -230,27 +278,32 @@ function renderInlineDollarMath(container) {
 
         for (const range of ranges) {
             if (range.start > cursor) {
-                fragment.appendChild(document.createTextNode(textNode.textContent.slice(cursor, range.start)));
+                fragment.appendChild(document.createTextNode(text.slice(cursor, range.start)));
             }
 
-            const mathHost = document.createElement('span');
+            const prefix = text.slice(0, range.start);
+            const suffix = text.slice(range.end + 1);
+            const isStandaloneMath = ranges.length === 1
+                && prefix.trim() === ''
+                && suffix.trim() === '';
+            const mathHost = document.createElement(isStandaloneMath ? 'div' : 'span');
 
             try {
                 katex.render(range.math, mathHost, {
-                    displayMode: false,
+                    displayMode: isStandaloneMath,
                     throwOnError: false
                 });
                 fragment.appendChild(mathHost);
             } catch (error) {
                 console.warn('Inline dollar math render error:', error);
-                fragment.appendChild(document.createTextNode(textNode.textContent.slice(range.start, range.end + 1)));
+                fragment.appendChild(document.createTextNode(text.slice(range.start, range.end + 1)));
             }
 
             cursor = range.end + 1;
         }
 
-        if (cursor < textNode.textContent.length) {
-            fragment.appendChild(document.createTextNode(textNode.textContent.slice(cursor)));
+        if (cursor < text.length) {
+            fragment.appendChild(document.createTextNode(text.slice(cursor)));
         }
 
         textNode.parentNode.replaceChild(fragment, textNode);
@@ -512,8 +565,19 @@ async function buildRenderedHtml(rendered, isDarkMode) {
         th { background-color: ${palette.tableHeaderBackground}; }
         .mermaid { display: flex; justify-content: center; margin: 16px 0; }
         .mermaid svg { max-width: 100%; height: auto; }
-        .katex-display { overflow: visible !important; margin: 16px 0; }
-        .katex-display > .katex { overflow: visible !important; }
+        .katex-display {
+            overflow-x: auto;
+            overflow-y: hidden;
+            margin: 16px 0;
+            padding: 0.35em 0;
+            -webkit-overflow-scrolling: touch;
+        }
+        .katex-display > .katex {
+            display: inline-block;
+            overflow: visible !important;
+            padding: 0.1em 0 0.2em;
+        }
+        .markdown-body .katex { line-height: 1.4; }
     </style>
 </head>
 <body>

@@ -119,11 +119,13 @@ body.dark-mode .tabs {
     display: none;
     flex: 1;
     overflow: hidden;
+    min-height: 0;
 }
 
 .tab-content.active {
     display: flex;
     flex-direction: column;
+    min-height: 0;
 }
 
 /* Editor Container */
@@ -131,6 +133,7 @@ body.dark-mode .tabs {
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-height: 0;
     padding: 12px;
 }
 
@@ -164,6 +167,7 @@ body.dark-mode #markdownInput {
 .preview-container {
     flex: 1;
     overflow-y: auto;
+    min-height: 0;
     padding: 16px;
     background-color: white;
 }
@@ -323,7 +327,19 @@ body.dark-mode .markdown-body table th {
 /* Math rendering */
 .katex-display {
     overflow-x: auto;
+    overflow-y: hidden;
     margin: 16px 0;
+    padding: 0.35em 0;
+    -webkit-overflow-scrolling: touch;
+}
+
+.katex-display > .katex {
+    display: inline-block;
+    padding: 0.1em 0 0.2em;
+}
+
+.markdown-body .katex {
+    line-height: 1.4;
 }
 
 /* Toolbar */
