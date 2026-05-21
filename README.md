@@ -7,6 +7,7 @@ Markdown Converter is a locally running browser extension that provides live Mar
 ## Install
 
 [![Google Play](https://img.shields.io/badge/Google%20Play-34A853?logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=com.tiptinker.markdownconverter&hl=en)
+[![App Store](https://img.shields.io/badge/App%20Store-000000?logo=apple&logoColor=white)](https://apps.apple.com/us/app/mdconverter/id6764042576)
 [![Firefox Add-ons](https://img.shields.io/badge/Firefox-Add--ons-FF7139?logo=firefox-browser&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/markdown-converter-tiptinker/)
 [![Chrome Web Store](https://img.shields.io/badge/Chrome-Web%20Store-4285F4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/markdown-converter/dpgapbpmmacapacfjjdjhmbgpfdkbnli)
 
@@ -86,34 +87,70 @@ Firefox:
 ## Example Markdown
 
 ````markdown
-# Markdown Converter
+# 🚀 MD Converter Pro: Ultimate Stress Test
 
-This is **bold** text and this is `inline code`.
+Welcome to a showcase of advanced Markdown features. This document is designed to see if your renderer can handle the "heavy hitters."
 
-- item 1
-- item 2
+## 1. Text Formatting & Lists
+Consistency is key. Here is a quick breakdown of styles:
+* **Bold Text** for emphasis.
+* *Italic Text* for style.
+* ~~Strikethrough~~ for the mistakes we've moved past.
+* `Inline Code` for the developers in the room.
 
-| Name | Value |
-|------|-------|
-| Foo  | Bar   |
+### Task List
+- [x] Enable GFM support
+- [x] Master KaTeX formulas
+- [ ] Become a Mermaid diagram wizard
 
-```javascript
-console.log('hello');
-```
+---
+
+## 2. Data Organization (Tables)
+Tables are essential for clear comparisons. Here is a quick look at some "Essential Elements":
+
+| Feature | Support | Difficulty |
+| :--- | :---: | :--- |
+| **GFM** | ✅ Yes | Easy |
+| **KaTeX** | ✅ Yes | Moderate |
+| **Mermaid** | ✅ Yes | Expert |
+
+---
+
+## 3. Mathematical Expressions (LaTeX)
+Since your tool supports **MathJax/KaTeX**, we can render beautiful equations.
+
+**The Quadratic Formula:**
+$$x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$$
+
+**Euler's Identity:**
+Integrating complex analysis into your notes is as simple as:
+$e^{i\pi} + 1 = 0$
+Price is $18 to $20.
+
+---
+
+## 4. Mermaid Diagrams
+Visualizing logic flow directly in Markdown is a game-changer.
 
 ```mermaid
-graph TD
-    Start --> Review
-    Review --> Done
+graph TD;
+    A[Start Typing] --> B{Does it look good?};
+    B -- Yes --> C[Export to PDF];
+    B -- No --> D[Check Syntax];
+    D --> A;
 ```
 
-Inline math: $E = mc^2$
+---
 
-Escaped dollar sign: Price is \$18 to \$20.
+## 5. Code Block (Python)
+```python
+def celebrate_markdown():
+    features = ["Tables", "Math", "Diagrams"]
+    for item in features:
+        print(f"I love rendering {item}!")
 
-$$
-\int_0^1 x^2 dx = \frac{1}{3}
-$$
+celebrate_markdown()
+```
 ````
 
 ## Math Rendering Notes
