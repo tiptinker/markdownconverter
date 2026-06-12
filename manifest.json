@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Markdown Converter",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Convert Markdown to HTML, PDF, and more. Preview with live rendering, Mermaid diagrams, and KaTeX math.",
   "permissions": [
     "storage",
@@ -18,6 +18,17 @@
   "side_panel": {
     "default_path": "sidebar.html"
   },
+  "file_handlers": [
+    {
+      "action": "sidebar.html",
+      "name": "Open in Markdown Converter",
+      "accept": {
+        "text/plain": [".txt", ".md", ".markdown"],
+        "text/markdown": [".md", ".markdown"]
+      },
+      "launch_type": "single-client"
+    }
+  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
   },

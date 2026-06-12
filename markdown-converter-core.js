@@ -331,6 +331,17 @@ function downloadFile(content, filename, mimeType) {
     URL.revokeObjectURL(url);
 }
 
+const OPENABLE_FILE_EXTENSIONS = ['.md', '.txt', '.markdown'];
+
+function isOpenableTextFile(file) {
+    if (!file || !file.name) {
+        return false;
+    }
+
+    const lowerName = file.name.toLowerCase();
+    return OPENABLE_FILE_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
+}
+
 function getMimeTypeFromAssetPath(assetPath) {
     const normalizedPath = assetPath.toLowerCase();
 
@@ -600,8 +611,11 @@ function initMarkdownConverter(options) {
         const dom = {
             markdownInput: document.getElementById('markdownInput'),
             previewContainer: document.getElementById('previewContainer'),
+            editorContainer: document.querySelector('.editor-container'),
             tabButtons: Array.from(document.querySelectorAll('.tab-btn')),
             tabContents: Array.from(document.querySelectorAll('.tab-content')),
+            openFileBtn: document.getElementById('openFileBtn'),
+            fileInput: document.getElementById('fileInput'),
             clearBtn: document.getElementById('clearBtn'),
             copyBtn: document.getElementById('copyBtn'),
             exportPdfBtn: document.getElementById('exportPdfBtn'),
@@ -760,6 +774,63 @@ function initMarkdownConverter(options) {
             }
         }
 
+        async function loadFileIntoEditor(file) {
+            if (!dom.markdownInput || !file) {
+                return;
+            }
+
+            if (!isOpenableTextFile(file)) {
+                showNotification('Only .md and .txt files are supported', 'error');
+                return;
+            }
+
+            if (dom.markdownInput.value.trim() && !confirm('Replace current content with the opened file?')) {
+                return;
+            }
+
+            try {
+                const text = await file.text();
+                dom.markdownInput.value = text;
+                updatePreview();
+                saveContent();
+                switchTab('editor');
+                showNotification(`Opened ${file.name}`, 'success');
+            } catch (error) {
+                console.error('File open error:', error);
+                showNotification('Failed to open file', 'error');
+            }
+        }
+
+        function openFilePicker() {
+            dom.fileInput?.click();
+        }
+
+        function handleFileInputChange(event) {
+            const file = event.target.files?.[0];
+            if (file) {
+                loadFileIntoEditor(file);
+            }
+
+            event.target.value = '';
+        }
+
+        function registerLaunchQueueHandler() {
+            if (!('launchQueue' in window) || !('files' in LaunchParams.prototype)) {
+                return;
+            }
+
+            window.launchQueue.setConsumer(async (launchParams) => {
+                if (!launchParams.files?.length) {
+                    return;
+                }
+
+                for (const fileHandle of launchParams.files) {
+                    const file = await fileHandle.getFile();
+                    await loadFileIntoEditor(file);
+                }
+            });
+        }
+
         async function copyHtml() {
             try {
                 await updatePreview();
@@ -902,6 +973,29 @@ function initMarkdownConverter(options) {
                 updatePreview();
                 saveContent();
             });
+        }
+
+        if (options.allowOpenFile) {
+            registerLaunchQueueHandler();
+
+            if (dom.openFileBtn && dom.fileInput) {
+                dom.openFileBtn.addEventListener('click', openFilePicker);
+                dom.fileInput.addEventListener('change', handleFileInputChange);
+            }
+
+            if (dom.editorContainer) {
+                dom.editorContainer.addEventListener('dragover', (event) => {
+                    event.preventDefault();
+                });
+
+                dom.editorContainer.addEventListener('drop', (event) => {
+                    event.preventDefault();
+                    const file = event.dataTransfer?.files?.[0];
+                    if (file) {
+                        loadFileIntoEditor(file);
+                    }
+                });
+            }
         }
 
         if (options.allowClear && dom.clearBtn) {

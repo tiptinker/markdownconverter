@@ -5,6 +5,7 @@ initMarkdownConverter({
     mermaidIdPrefix: 'sidebar',
     screenshotMinimumWidth: 320,
     screenshotWidthOffset: 24,
+    allowOpenFile: true,
     allowClear: true,
     copyMode: 'rendered'
 });
